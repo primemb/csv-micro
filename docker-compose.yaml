@@ -11,7 +11,10 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - '3000:3000'
+      - '3001:3001'
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
   csv:
     build:
       context: .
@@ -24,15 +27,39 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - '3001:3001'
+      - '3000:3000'
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  storage:
+    build:
+      context: .
+      dockerfile: ./apps/storage/Dockerfile
+      target: development
+    command: npm run start:dev storage
+    env_file:
+      - ./apps/storage/.env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
   postgres:
     image: postgres
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: example
     volumes:
-      - postgres_data_micro:/var/lib/postgresql/data
+      - pgData:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d postgres']
+      interval: 30s
+      timeout: 5s
+      retries: 10
   pgadmin:
     image: dpage/pgadmin4
     ports:
@@ -47,7 +74,12 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 5s
+      retries: 10
 
 volumes:
-  postgres_data_micro:
+  pgData:
   pgadmin_data_micro:
