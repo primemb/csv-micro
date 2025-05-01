@@ -1,2 +1,1 @@
-export * from './common.module';
-export * from './common.service';
+export * from './rabbit-client/rabbit.module';
