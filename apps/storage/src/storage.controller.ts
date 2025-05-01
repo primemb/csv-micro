@@ -1,6 +1,7 @@
 import { Controller, Get, Logger } from '@nestjs/common';
 import { StorageService } from './storage.service';
 import { EventPattern } from '@nestjs/microservices';
+import { CreateUserDto } from '@app/common';
 
 @Controller()
 export class StorageController {
@@ -8,8 +9,8 @@ export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
   @EventPattern('user.create')
-  async handleUserCreated(data: any) {
+  async handleUserCreated(data: CreateUserDto) {
     this.logger.log(`User created event received ${JSON.stringify(data)}`);
-    console.log(data);
+    await this.storageService.createUser(data);
   }
 }

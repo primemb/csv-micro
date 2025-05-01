@@ -3,8 +3,8 @@ import {
   Logger,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { RabbitClient } from '@app/common/rabbit-client/rabbit.client';
+import { CreateUserDto } from '@app/common';
 
 @Injectable()
 export class RestService {
