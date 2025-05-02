@@ -13,4 +13,10 @@ export class StorageController {
     this.logger.log(`User created event received ${JSON.stringify(data)}`);
     await this.storageService.createUser(data);
   }
+
+  @EventPattern('user.list.create')
+  async handleUserListCreated(data: CreateUserDto[]) {
+    this.logger.log(`User list created event received ${JSON.stringify(data)}`);
+    await this.storageService.createUserList(data);
+  }
 }

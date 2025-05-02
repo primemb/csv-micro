@@ -19,4 +19,13 @@ export class StorageService {
       throw new UnprocessableEntityException('Failed to create user');
     }
   }
+
+  async createUserList(users: CreateUserDto[]) {
+    try {
+      return this.usersService.createUserList(users);
+    } catch (error) {
+      this.logger.error(error);
+      throw new UnprocessableEntityException('Failed to create user list');
+    }
+  }
 }

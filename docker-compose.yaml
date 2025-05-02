@@ -36,11 +36,14 @@ services:
       context: .
       dockerfile: ./apps/storage/Dockerfile
       target: development
-    command: npm run start:dev storage
+    command: >
+      bash -c "npm run migrate:users
+      && npm run start:dev storage"
     env_file:
       - ./apps/storage/.env
     volumes:
       - .:/usr/src/app
+      - ./files:/usr/src/app/files
       - /usr/src/app/node_modules
     depends_on:
       postgres:
