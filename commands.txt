@@ -1,0 +1,15 @@
+# Build your images
+docker build --target production -t ghcr.io/primemb/rest:latest -f apps/rest/Dockerfile .
+docker build --target production -t ghcr.io/primemb/csv:latest -f apps/csv/Dockerfile .
+docker build --target production -t ghcr.io/primemb/storage:latest -f apps/storage/Dockerfile .
+
+# Push to GHCR
+docker push ghcr.io/primemb/rest:latest
+docker push ghcr.io/primemb/csv:latest
+docker push ghcr.io/primemb/storage:latest
+
+
+kubectl apply -f k8s/
+kubectl delete -f k8s/
+
+kubectl logs -f deployment/csv

@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run generate:users
 
-RUN npm run build
+RUN npm run build storage
 
 FROM node:20 AS production
 
@@ -21,10 +21,13 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install --only=production
+RUN npm install
+
 
 COPY . .
 
+RUN npm run generate:users
+
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/rest/main"]
+CMD ["node", "dist/apps/storage/main"]

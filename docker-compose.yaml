@@ -3,8 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/rest/Dockerfile
-      target: development
-    command: npm run start:dev rest
+      target: production
     env_file:
       - ./apps/rest/.env
     volumes:
@@ -19,8 +18,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/csv/Dockerfile
-      target: development
-    command: npm run start:dev csv
+      target: production
     env_file:
       - ./apps/csv/.env
     volumes:
@@ -35,10 +33,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/storage/Dockerfile
-      target: development
-    command: >
-      bash -c "npm run migrate:users
-      && npm run start:dev storage"
+      target: production
     env_file:
       - ./apps/storage/.env
     volumes:
