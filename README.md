@@ -14,7 +14,7 @@
 
 3. Start the application with Docker:
    ```bash
-   docker-compose up -d
+   docker-compose up --build
    ```
 
 This will install all dependencies, generate the required user data, and start all services in detached mode using Docker Compose.
