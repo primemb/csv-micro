@@ -12,4 +12,10 @@ docker push ghcr.io/primemb/storage:latest
 kubectl apply -f k8s/
 kubectl delete -f k8s/
 
+kubectl get pods
+minikube service rest --url
+
+
 kubectl logs -f deployment/csv
+
+ref : https://learnk8s.io/deploying-nodejs-kubernetes
