@@ -34,4 +34,3 @@ spec:
           ports:
             - containerPort: 5672
             - containerPort: 15672
-          imagePullPolicy: Always

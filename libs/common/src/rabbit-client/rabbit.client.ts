@@ -1,4 +1,10 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnApplicationBootstrap,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   ClientProxy,
@@ -7,7 +13,8 @@ import {
 } from '@nestjs/microservices';
 
 @Injectable()
-export class RabbitClient implements OnModuleInit, OnModuleDestroy {
+export class RabbitClient implements OnModuleDestroy {
+  private readonly logger = new Logger(RabbitClient.name);
   private client: ClientProxy;
 
   constructor(private readonly configService: ConfigService) {
@@ -23,12 +30,18 @@ export class RabbitClient implements OnModuleInit, OnModuleDestroy {
     });
   }
 
-  async onModuleInit() {
-    await this.client.connect();
+  async connect() {
+    try {
+      await this.client.connect();
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 
   async onModuleDestroy() {
-    await this.client.close();
+    if (this.client) {
+      await this.client.close();
+    }
   }
 
   async emit(pattern: string, data: any) {

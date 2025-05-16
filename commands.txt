@@ -14,8 +14,11 @@ kubectl delete -f k8s/
 
 kubectl get pods
 minikube service rest --url
+kubectl delete pod <storage_name>
+kubectl port-forward service/postgres 5432:5432
+kubectl port-forward service/postgres 15672:15672
 
 
-kubectl logs -f deployment/csv
+kubectl logs -f deployment/rest
 
 ref : https://learnk8s.io/deploying-nodejs-kubernetes
