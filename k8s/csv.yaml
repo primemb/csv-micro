@@ -33,7 +33,7 @@ spec:
             - containerPort: 3000
           env:
             - name: RABBITMQ_URL
-              value: 'amqp://rabbitmq:5672'
+              value: 'amqp://host.docker.internal:5672'
             - name: RABBITMQ_QUEUE
               value: storage
             - name: PORT
