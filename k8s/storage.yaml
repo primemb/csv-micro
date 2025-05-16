@@ -38,3 +38,4 @@ spec:
               value: 'amqp://rabbitmq:5672'
             - name: RABBITMQ_QUEUE
               value: 'storage'
+          imagePullPolicy: Always

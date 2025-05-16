@@ -38,3 +38,4 @@ spec:
               value: storage
             - name: PORT
               value: '3001'
+          imagePullPolicy: Always

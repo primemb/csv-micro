@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/rest/Dockerfile
-      target: production
+      target: development
     env_file:
       - ./apps/rest/.env
     volumes:
@@ -11,6 +11,7 @@ services:
       - /usr/src/app/node_modules
     ports:
       - '3001:3001'
+    command: npm run start:dev rest
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -18,14 +19,16 @@ services:
     build:
       context: .
       dockerfile: ./apps/csv/Dockerfile
-      target: production
+      target: development
     env_file:
       - ./apps/csv/.env
     volumes:
       - .:/usr/src/app
+      - ./files:/usr/src/app/files
       - /usr/src/app/node_modules
     ports:
       - '3000:3000'
+    command: npm run start:dev csv
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -33,13 +36,13 @@ services:
     build:
       context: .
       dockerfile: ./apps/storage/Dockerfile
-      target: production
+      target: development
     env_file:
       - ./apps/storage/.env
     volumes:
       - .:/usr/src/app
-      - ./files:/usr/src/app/files
       - /usr/src/app/node_modules
+    command: npm run start:dev storage
     depends_on:
       postgres:
         condition: service_healthy
