@@ -9,7 +9,11 @@ docker push ghcr.io/primemb/csv:latest
 docker push ghcr.io/primemb/storage:latest
 
 // kuber commands
-docker compose -f docker compose -f docker-compose.kube.yaml up --build
+minikube start
+docker compose -f docker-compose.kube.yaml up --build
+
+// migrate database
+npm run migrate:kube
 
 // for run
 kubectl apply -f k8s/
@@ -20,5 +24,8 @@ kubectl delete -f k8s/
 kubectl get pods
 minikube service rest --url
 kubectl logs -f deployment/rest
+
+minikube stop
+docker compose -f docker-compose.kube.yaml down
 
 ref : https://learnk8s.io/deploying-nodejs-kubernetes
