@@ -18,13 +18,12 @@ npm run migrate:kube
 // for run
 kubectl apply -f k8s/
 
-// for delete
-kubectl delete -f k8s/
-
 kubectl get pods
 minikube service rest --url
 kubectl logs -f deployment/rest
 
+// for delete
+kubectl delete -f k8s/
 minikube stop
 docker compose -f docker-compose.kube.yaml down
 
